@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  mongodb:
+    build: ./mongodb
+    image: tms-portal/mongo:latest
+    container_name: tms-portal-mongo
+    ports:
+      - '27017:27017'
+    logging:
+      driver: none
+
+  back:
+    build: ./back
+    image: tms-portal/back:latest
+    container_name: tms-portal-back
+    ports:
+      - '3000:3000'
+
+  ue_portal:
+    build: ./ue_portal
+    image: tms-portal/ue_portal:latest
+    container_name: tms-portal-ue_portal
+    ports:
+      - '8080:80'
+
+  ue_admin:
+    build: ./ue_admin
+    image: tms-portal/ue_admin:latest
+    container_name: tms-portal-ue_admin
+    ports:
+      - '8081:80'

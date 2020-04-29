@@ -1,0 +1,135 @@
+[
+  {
+    "path": "/menu1",
+    "name": "menu1",
+    "meta": {
+      "title": "菜单1"
+    },
+    "onlineComponent": {
+      "lib": {
+        "url": "http://localhost:8082/lib/Blank",
+        "includeCss": false,
+        "events": {
+          "success": {
+            "route": { "name": "menu2" },
+            "mapResponse": [
+              { "shareKey": "result.msg", "responseKey": "result.message" }
+            ]
+          }
+        }
+      },
+      "defaultProps": [{ "propName": "tip", "value": "welcome" }]
+    }
+  },
+  {
+    "path": "/menu2",
+    "name": "menu2",
+    "meta": {
+      "title": "菜单2"
+    },
+    "onlineComponent": {
+      "lib": {
+        "url": "http://localhost:8082/lib/Blank",
+        "includeCss": false,
+        "events": {
+          "success": { "route": { "name": "menu1" } }
+        }
+      },
+      "defaultProps": [{ "propName": "tip", "value": "hello" }],
+      "responseProps": [
+        {
+          "propName": "tip",
+          "shareKey": "result.msg"
+        }
+      ]
+    }
+  },
+  {
+    "path": "/menu3",
+    "name": "menu3",
+    "children": [
+      {
+        "path": "sub1",
+        "name": "menu3/sub1",
+        "meta": {
+          "title": "子菜单1"
+        },
+        "onlineComponent": {
+          "lib": {
+            "url": "http://localhost:8082/lib/Blank",
+            "includeCss": false
+          },
+          "defaultProps": {
+            "propName": "tip",
+            "value": "sub1 neahao"
+          }
+        }
+      },
+      {
+        "path": "sub2",
+        "name": "menu3/sub2",
+        "meta": {
+          "title": "子菜单2"
+        },
+        "onlineComponent": {
+          "lib": {
+            "url": "http://localhost:8082/lib/Blank",
+            "includeCss": false
+          },
+          "defaultProps": {
+            "propName": "tip",
+            "value": "sub2 你好"
+          }
+        }
+      }
+    ],
+    "meta": {
+      "title": "菜单3"
+    },
+    "onlineComponent": {
+      "lib": {
+        "url": "http://localhost:8082/lib/Blank",
+        "includeCss": false
+      },
+      "defaultProps": {
+        "propName": "tip",
+        "value": "menu3-加油"
+      },
+      "views": [{ "name": "default" }]
+    }
+  },
+  {
+    "path": "/menu4",
+    "layoutComponent": {
+      "name": "named-router-views",
+      "defaultProps": {
+        "views": [{ "name": "a" }, { "name": "b" }]
+      }
+    },
+    "children": [
+      {
+        "path": "",
+        "name": "menu4",
+        "onlineComponents": {
+          "a": {
+            "lib": {
+              "url": "http://localhost:8082/lib/Blank",
+              "includeCss": false
+            },
+            "defaultProps": { "propName": "tip", "value": "I am a" }
+          },
+          "b": {
+            "lib": {
+              "url": "http://localhost:8082/lib/Blank",
+              "includeCss": false
+            },
+            "defaultProps": { "propName": "tip", "value": "I am b" }
+          }
+        },
+        "meta": {
+          "title": "菜单4"
+        }
+      }
+    ]
+  }
+]
