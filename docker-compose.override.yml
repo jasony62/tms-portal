@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  mongodb:
+    volumes:
+      - ./mongodb/data:/data/db
+    ports:
+      - '27017:27017'
+    logging:
+      driver: 'none'
+
+  back:
+    ports:
+      - '3000:3000'
+
+  ue_admin:
+    build: 
+      context: ./ue_admin
+      args:
+        vue_app_auth_server: http://localhost:3000
+				vue_app_api_server: http://localhost:3000
+    ports:
+      - '8081:80'
+    dns:
+      - 223.6.6.6
+      - 223.5.5.5
+
+  ue_portal:
+    build: 
+    context: ./ue_portal
+      args:
+        vue_app_auth_server: http://localhost:3000
+        vue_app_api_server: http://localhost:3000
+    ports:
+      - '8080:80'
+    dns:
+      - 223.6.6.6
+      - 223.5.5.5
