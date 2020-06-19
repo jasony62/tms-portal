@@ -4,28 +4,45 @@ services:
     build: ./mongodb
     image: tms-portal/mongo:latest
     container_name: tms-portal-mongo
-    ports:
-      - '27017:27017'
-    logging:
-      driver: none
 
   back:
     build: ./back
     image: tms-portal/back:latest
-    container_name: tms-portal-back
-    ports:
-      - '3000:3000'
+		container_name: tms-portal-back
+		environment:
+      - NODE_ENV=production
+      - TMS__MONGODB_HOST=mongodb
+			- TMS__MONGODB_PORT=27017
+		command:
+			['./wait-for.sh', 'mongodb:27017', '-t', '300', '--', 'node', 'server']
 
-  ue_portal:
-    build: ./ue_portal
+	ue_admin:
+		build: 
+			context: ./ue_admin
+			args:
+				vue_app_base_url: /admin
+        vue_app_back_api_base: /api
+        vue_app_back_api_plugin: /plugin				
+		image: tms-portal/ue_admin:latest
+		container_name: tms-portal-ue_admin
+    environment:
+      - NGINX_WEB_BASE_URL=/admin
+
+
+	ue_portal:
+		build: 
+			context: ./ue_portal
+			args:
+        vue_app_login_key_username: username
+        vue_app_login_key_password: password
+        vue_app_login_key_pin: pin
+        vue_app_base_url: /mongo
+        vue_app_back_auth_base: /auth
+				vue_app_back_api_base: /api
+				vue_app_auth_disabled: No		
     image: tms-portal/ue_portal:latest
-    container_name: tms-portal-ue_portal
-    ports:
-      - '8080:80'
+		container_name: tms-portal-ue_portal
+    environment:
+      - NGINX_WEB_BASE_URL=/portal
 
-  ue_admin:
-    build: ./ue_admin
-    image: tms-portal/ue_admin:latest
-    container_name: tms-portal-ue_admin
-    ports:
-      - '8081:80'
+  
