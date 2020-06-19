@@ -21,8 +21,7 @@ services:
 			context: ./ue_admin
 			args:
 				vue_app_base_url: /admin
-        vue_app_back_api_base: /api
-        vue_app_back_api_plugin: /plugin				
+        vue_app_back_api_base: /api			
 		image: tms-portal/ue_admin:latest
 		container_name: tms-portal-ue_admin
     environment:
@@ -36,7 +35,7 @@ services:
         vue_app_login_key_username: username
         vue_app_login_key_password: password
         vue_app_login_key_pin: pin
-        vue_app_base_url: /mongo
+        vue_app_base_url: /portal
         vue_app_back_auth_base: /auth
 				vue_app_back_api_base: /api
 				vue_app_auth_disabled: No		
