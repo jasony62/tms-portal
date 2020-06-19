@@ -1,6 +1,6 @@
 <template>
   <div class="online-lib">
-    <div class='debug'>
+    <div class="debug">
       <div>lib: {{ lib }}</div>
       <div>libProps: {{ libProps }}</div>
       <div>views: {{ views }}</div>

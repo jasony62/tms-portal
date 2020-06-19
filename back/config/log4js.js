@@ -1,8 +1,11 @@
 module.exports = {
   appenders: {
-    consoleout: { type: 'console' }
+    consoleout: { type: 'console' },
   },
   categories: {
-    default: { appenders: ['consoleout'], level: 'debug' }
-  }
+    default: {
+      appenders: ['consoleout'],
+      level: process.env.TMS_APP_LOG4JS_LEVEL || 'debug',
+    },
+  },
 }

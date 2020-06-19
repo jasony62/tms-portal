@@ -1,13 +1,13 @@
 module.exports = {
-  port: 3000,
-  name: 'tms-portal-back',
+  port: process.env.TMS_APP_PORT || 3000,
+  name: process.env.TMS_APP_NAME || 'tms-portal-back',
   router: {
     auth: {
-      prefix: '' // 接口调用url的前缀
+      prefix: 'auth', // 接口调用url的前缀
     },
     controllers: {
-      prefix: 'api' // 接口调用url的前缀，例如：/api
-    }
+      prefix: 'api', // 接口调用url的前缀，例如：/api
+    },
   },
   auth: {
     disabled: true,
@@ -15,8 +15,8 @@ module.exports = {
     client: { accounts: [{ id: 1, username: 'user1', password: '123456' }] },
     jwt: {
       privateKey: 'tms-back-secret',
-      expiresIn: 7200
-    }
+      expiresIn: 7200,
+    },
   },
-  tmsTransaction: false
+  tmsTransaction: false,
 }
