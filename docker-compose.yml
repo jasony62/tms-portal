@@ -1,32 +1,33 @@
 version: '3.7'
 services:
-  mongodb:
+  smongodb:
     build: ./mongodb
-    image: tms-portal/mongo:latest
-    container_name: tms-portal-mongo
+    image: tms-portal-sale/mongo:latest
+    container_name: portal-sale-mongo
 
   back:
     build: ./back
-    image: tms-portal/back:latest
-		container_name: tms-portal-back
+    image: tms-portal-sale/back:latest
+		container_name: portal-sale-back
 		environment:
-      - NODE_ENV=production
-      - TMS__MONGODB_HOST=mongodb
-			- TMS__MONGODB_PORT=27017
+			- TMS_APP_PORT=3000
+			- TMS_APP_NAME=dev-op
+			- TMS_APP_LOG4JS_LEVEL=debug
+			- TMS_MONGODB_HOST=smongodb
+			- TMS_MONGODB_PORT=27017
 		command:
-			['./wait-for.sh', 'mongodb:27017', '-t', '300', '--', 'node', 'server']
+			['sh', './wait-for.sh', 'smongodb:27017', '-t', '300', '--', 'node', 'server']
 
 	ue_admin:
 		build: 
 			context: ./ue_admin
 			args:
-				vue_app_base_url: /admin
-        vue_app_back_api_base: /api
-        vue_app_back_api_plugin: /plugin				
-		image: tms-portal/ue_admin:latest
-		container_name: tms-portal-ue_admin
+				vue_app_base_url: /sale/admin
+        vue_app_back_api_base: /sale/api				
+		image: tms-portal-sale/ue_admin:latest
+		container_name: portal-sale-ue_admin
     environment:
-      - NGINX_WEB_BASE_URL=/admin
+      - NGINX_WEB_BASE_URL=/sale/admin
 
 
 	ue_portal:
@@ -36,13 +37,13 @@ services:
         vue_app_login_key_username: username
         vue_app_login_key_password: password
         vue_app_login_key_pin: pin
-        vue_app_base_url: /mongo
-        vue_app_back_auth_base: /auth
-				vue_app_back_api_base: /api
-				vue_app_auth_disabled: No		
-    image: tms-portal/ue_portal:latest
-		container_name: tms-portal-ue_portal
+        vue_app_base_url: /sale/portal
+        vue_app_back_auth_base: /sale/auth
+				vue_app_back_api_base: /sale/api
+				vue_app_auth_disabled: No
+    image: tms-portal-sale/ue_portal:latest
+		container_name: portal-sale-ue_portal
     environment:
-      - NGINX_WEB_BASE_URL=/portal
+      - NGINX_WEB_BASE_URL=/sale/portal
 
   
