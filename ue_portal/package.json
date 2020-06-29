@@ -1,5 +1,5 @@
 {
-  "name": "ue",
+  "name": "ue_portal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,7 +30,8 @@
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.13.1",
     "prettier": "^1.19.1",
-    "sass-loader": "^8.0.2",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.10"
   }
 }

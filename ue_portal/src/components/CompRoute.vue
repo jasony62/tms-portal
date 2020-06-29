@@ -11,7 +11,10 @@
       <div>$route.meta: {{ $route.meta }}</div>
     </div>
     <hr />
-    <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online>
+    <!-- <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online> -->
+    <div class="box">
+      <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online>
+    </div>
     <hr />
     <div v-if="views.length">
       <named-router-views :views="views"></named-router-views>
@@ -86,3 +89,10 @@ export default {
   }
 }
 </script>
+<style >
+.box {
+  width: 100%;
+  height: 500px;
+  position: relative;
+}
+</style>
