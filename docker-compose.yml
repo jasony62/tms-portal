@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  smongodb:
+  psmongodb:
     build: ./mongodb
     image: tms-portal-sale/mongo:latest
     container_name: portal-sale-mongo
@@ -13,12 +13,12 @@ services:
       - TMS_APP_PORT=3000
       - TMS_APP_NAME=dev-op
       - TMS_APP_LOG4JS_LEVEL=debug
-      - TMS_MONGODB_HOST=smongodb
+      - TMS_MONGODB_HOST=psmongodb
       - TMS_MONGODB_PORT=27017
       - TMS_MONGODB_USER_NAME=bss
       - TMS_MONGODB_USER_PWD=123456
     command:
-      ['sh', './wait-for.sh', 'smongodb:27017', '-t', '300', '--', 'node', 'server']
+      ['sh', './wait-for.sh', 'psmongodb:27017', '-t', '300', '--', 'node', 'server']
 
   ue_admin:
     build: 
