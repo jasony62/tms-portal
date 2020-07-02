@@ -11,7 +11,6 @@
       <div>$route.meta: {{ $route.meta }}</div>
     </div>
     <hr />
-    <!-- <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online> -->
     <div class="box">
       <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online>
     </div>
