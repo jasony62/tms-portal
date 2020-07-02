@@ -10,27 +10,27 @@ services:
 
   back:
     ports:
-			- '3000:3000'
-		environment:
-			- TMS_REDIS_PREFIX=dev-op
-			- TMS_REDIS_HOST=
-			- TMS_REDIS_PORT=6300
-		networks:
-			- portal
+      - '3000:3000'
+    environment:
+      - TMS_REDIS_PREFIX=dev-op
+      - TMS_REDIS_HOST=
+      - TMS_REDIS_PORT=6300
+    networks:
+      - portal
 
   ue_admin:
     build: 
       context: ./ue_admin
-      args:
-        vue_app_auth_server: 
-				vue_app_api_server: 
+    args:
+      vue_app_auth_server: 
+      vue_app_api_server: 
     ports:
       - ''
     dns:
       - 223.6.6.6
-			- 223.5.5.5
-		networks:
-			- portal
+      - 223.5.5.5
+   networks:
+      - portal
 
   ue_portal:
     build: 
@@ -42,9 +42,9 @@ services:
       - ''
     dns:
       - 223.6.6.6
-			- 223.5.5.5
-		networks:
-			- portal
+      - 223.5.5.5
+    networks:
+      - portal
 networks:
 	portal:
 		driver: bridge
