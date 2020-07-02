@@ -33,7 +33,7 @@ services:
 
   ue_portal:
     build: 
-    context: ./ue_portal
+      context: ./ue_portal
 #    args:
 #      vue_app_auth_server: 
 #      vue_app_api_server: 
