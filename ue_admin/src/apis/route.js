@@ -38,7 +38,6 @@ export default function create(tmsAxios) {
 				})
 		},
 		getDefault() {
-			console.log(tmsAxios)
 			let url = `${baseApi}/getDefault`
 			return tmsAxios.get(url).then(rst => {
 				return rst.data.result
