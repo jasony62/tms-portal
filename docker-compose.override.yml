@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  smongodb:
+  psmongodb:
     volumes:
       - /home/devops/mongodata/portal_sale:/data/db
     ports:
