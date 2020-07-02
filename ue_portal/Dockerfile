@@ -32,7 +32,7 @@ RUN echo VUE_APP_LOGIN_KEY_USERNAME=$vue_app_login_key_username >> .env && \
 	echo VUE_APP_AUTH_DISABLED=$vue_app_auth_disabled >> .env
 
 # 安装依赖包，构建代码
-RUN cnpm i && yarn build
+RUN cnpm i && cnpm install sass-loader  node-sass -D && yarn build
 
 # 标准基础镜像（部署阶段）
 FROM nginx:alpine
