@@ -25,7 +25,7 @@ services:
       context: ./ue_admin
       args:
         vue_app_base_url: /sale/admin
-        vue_app_back_api_base: /sale/api				
+        vue_app_base_api_base: /sale/api
     image: tms-portal-sale/ue_admin:latest
     container_name: portal-sale-ue_admin
     environment:
