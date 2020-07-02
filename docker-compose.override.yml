@@ -46,6 +46,6 @@ services:
     networks:
       - portal
 networks:
-	portal:
-		driver: bridge
-		external: true
+  portal:
+    driver: bridge
+    external: true
