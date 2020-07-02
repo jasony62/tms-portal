@@ -42,7 +42,7 @@ services:
         vue_app_base_url: /sale/portal
         vue_app_back_auth_base: /sale/auth
         vue_app_back_api_base: /sale/api
-        vue_app_auth_disabled: 'No'
+#        vue_app_auth_disabled: 'No'
     image: tms-portal-sale/ue_portal:latest
     container_name: portal-sale-ue_portal
     environment:
