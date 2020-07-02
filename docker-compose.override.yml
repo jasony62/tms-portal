@@ -21,8 +21,8 @@ services:
     build: 
       context: ./ue_admin
     args:
-      vue_app_auth_server: 
-      vue_app_api_server: 
+#      vue_app_auth_server: 
+#      vue_app_api_server: 
     ports:
       - '3140:80'
     dns:
@@ -35,8 +35,8 @@ services:
     build: 
     context: ./ue_portal
     args:
-      vue_app_auth_server: 
-      vue_app_api_server: 
+#      vue_app_auth_server: 
+#      vue_app_api_server: 
     ports:
       - '3150:80'
     dns:
