@@ -4,12 +4,12 @@ services:
     volumes:
       - /home/devops/mongodata/portal_sale:/data/db
     ports:
-      - '27017:27017'
+      - '27015:27017'
     logging:
       driver: 'none'
   back:
     ports:
-      - '3000:3000'
+      - '3130:3000'
     environment:
       - TMS_REDIS_PREFIX=dev-op
       - TMS_REDIS_HOST=
@@ -24,7 +24,7 @@ services:
       vue_app_auth_server: 
       vue_app_api_server: 
     ports:
-      - ''
+      - '3140:80'
     dns:
       - 223.6.6.6
       - 223.5.5.5
@@ -38,7 +38,7 @@ services:
       vue_app_auth_server: 
       vue_app_api_server: 
     ports:
-      - ''
+      - '3150:80'
     dns:
       - 223.6.6.6
       - 223.5.5.5
