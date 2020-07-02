@@ -20,7 +20,7 @@ services:
   ue_admin:
     build: 
       context: ./ue_admin
-    args:
+#    args:
 #      vue_app_auth_server: 
 #      vue_app_api_server: 
     ports:
@@ -34,7 +34,7 @@ services:
   ue_portal:
     build: 
     context: ./ue_portal
-    args:
+#    args:
 #      vue_app_auth_server: 
 #      vue_app_api_server: 
     ports:
