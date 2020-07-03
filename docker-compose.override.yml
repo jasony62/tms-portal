@@ -7,24 +7,29 @@ services:
       - '27015:27017'
     logging:
       driver: 'none'
+    networks:
+      - portal
   back:
     ports:
-      - '3130:3000'
+      - '3230:3000'
     environment:
       - TMS_REDIS_PREFIX=dev-op
-      - TMS_REDIS_HOST=
+      - TMS_REDIS_HOST=192.168.20.247
       - TMS_REDIS_PORT=6300
+      - TMS_PORTAL_MONGODB_HOST=psmongodb
+      - TMS_PORTAL_MONGODB_PORT=27017
+
     networks:
       - portal
 
   ue_admin:
     build: 
       context: ./ue_admin
-#    args:
-#      vue_app_auth_server: 
-#      vue_app_api_server: 
+      args:
+        vue_app_auth_server: http://192.168.20.71:3330
+        vue_app_api_server: http://back:3230
     ports:
-      - '3140:80'
+      - '3240:80'
     dns:
       - 223.6.6.6
       - 223.5.5.5
@@ -34,11 +39,11 @@ services:
   ue_portal:
     build: 
       context: ./ue_portal
-#    args:
-#      vue_app_auth_server: 
-#      vue_app_api_server: 
+      args:
+        vue_app_auth_server: http://192.168.20.71:3330
+        vue_app_api_server: http://back:3230
     ports:
-      - '3150:80'
+      - '3250:80'
     dns:
       - 223.6.6.6
       - 223.5.5.5
