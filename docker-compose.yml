@@ -13,8 +13,6 @@ services:
       - TMS_APP_PORT=3000
       - TMS_APP_NAME=dev-op
       - TMS_APP_LOG4JS_LEVEL=debug
-      - TMS_MONGODB_HOST=psmongodb
-      - TMS_MONGODB_PORT=27017
       - TMS_MONGODB_USER_NAME=root
       - TMS_MONGODB_USER_PWD=pmjswjkai
     command:

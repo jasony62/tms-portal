@@ -20,7 +20,7 @@ RUN echo VUE_APP_TITLE=$vue_app_title > .env && \
 	echo VUE_APP_API_SERVER=$vue_app_api_server >> .env
 
 # 安装依赖包，构建代码
-RUN cnpm i && yarn build
+RUN cnpm install webpack && cnpm i && yarn build
 
 # 标准基础镜像（部署阶段）
 FROM nginx:alpine

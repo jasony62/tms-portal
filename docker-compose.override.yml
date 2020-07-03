@@ -14,8 +14,11 @@ services:
       - '3230:3000'
     environment:
       - TMS_REDIS_PREFIX=dev-op
-      - TMS_REDIS_HOST=
+      - TMS_REDIS_HOST=192.168.20.247
       - TMS_REDIS_PORT=6300
+      - TMS_PORTAL_MONGODB_HOST=psmongodb
+      - TMS_PORTAL_MONGODB_PORT=27017
+
     networks:
       - portal
 
