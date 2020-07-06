@@ -8,7 +8,7 @@ WORKDIR /home/node/app
 COPY . .
 
 # 生成.env文件
-ARG vue_app_title=portalwebAdmin
+ARG vue_app_title=门户管理端
 ARG vue_app_base_url
 ARG vue_app_auth_base
 ARG vue_app_auth_server
