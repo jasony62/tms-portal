@@ -10,6 +10,8 @@ COPY . .
 # 生成.env文件
 ARG vue_app_title=portalwebAdmin
 ARG vue_app_base_url
+ARG vue_app_auth_base
+ARG vue_app_auth_server
 ARG vue_app_api_base
 ARG vue_app_api_server
 
@@ -17,7 +19,9 @@ ARG vue_app_api_server
 RUN echo VUE_APP_TITLE=$vue_app_title > .env && \
 	echo VUE_APP_BASE_URL=$vue_app_base_url >> .env && \
 	echo VUE_APP_API_BASE=$vue_app_api_base >> .env && \
-	echo VUE_APP_API_SERVER=$vue_app_api_server >> .env
+	echo VUE_APP_API_SERVER=$vue_app_api_server >> .env && \
+	echo VUE_APP_AUTH_BASE=$vue_app_auth_base >> .env && \
+	echo VUE_APP_AUTH_SERVER=$vue_app_auth_server >> .env 
 
 # 安装依赖包，构建代码
 RUN cnpm install webpack && cnpm i && yarn build
