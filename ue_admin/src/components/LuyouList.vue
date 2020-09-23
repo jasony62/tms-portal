@@ -42,7 +42,7 @@ export default {
   methods: {
     async createRoute() {
       const route = await this.$apis.route.create()
-      this.routes.append(route)
+      this.routes.push(route)
     },
     async listAll() {
       this.routes = await this.$apis.route.list()

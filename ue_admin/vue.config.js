@@ -4,7 +4,7 @@ const devServer = {
 
 // 代理api请求
 devServer.proxy[`${process.env.VUE_APP_AUTH_BASE}`] = {
-  target: process.env.VUE_APP_API_SERVER
+  target: process.env.VUE_APP_AUTH_SERVER
 }
 // 代理api请求
 devServer.proxy[`${process.env.VUE_APP_API_BASE}`] = {
