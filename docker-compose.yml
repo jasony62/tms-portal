@@ -2,13 +2,13 @@ version: '3.7'
 services:
   psmongodb:
     build: ./mongodb
-    image: tms-portal-sale/mongo:latest
-    container_name: portal-sale-mongo
+    image: 192.168.253.28/portal-sale/mongodb:latest
+    container_name: sale-db
 
   back:
     build: ./back
-    image: tms-portal-sale/back:latest
-    container_name: portal-sale-back
+    image: 192.168.253.28/portal-sale/back:latest
+    container_name: sale-back
     environment:
       - TMS_APP_PORT=3000
       - TMS_APP_NAME=dev-op
