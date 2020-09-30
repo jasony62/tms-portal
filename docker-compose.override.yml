@@ -22,7 +22,7 @@ services:
     networks:
       - portal
 
-  ue_admin:
+  admin:
     build: 
       context: ./ue_admin
       args:
@@ -36,7 +36,7 @@ services:
     networks:
       - portal
 
-  ue_portal:
+  mongo:
     build: 
       context: ./ue_portal
       args:
