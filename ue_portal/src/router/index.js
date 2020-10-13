@@ -1,26 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-export const staticRoutes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    meta: {
-      title: '主页'
-    }
-  },
-  {
-    path: '/about',
-    name: 'about',
-    meta: { title: '关于' },
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+export const staticRoutes = []
 
 const createRouter = () =>
   new VueRouter({
