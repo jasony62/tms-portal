@@ -8,6 +8,7 @@ import auth from './apis/auth'
 import { Frame, Flex, CompOnline, Login } from 'tms-vue-ui'
 import ElementUI, { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './styles/common.scss'
 
 import CompRoute from './components/CompRoute.vue'
 import NamedRouterViews from './components/NamedRouterViews.vue'
@@ -68,10 +69,19 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
   /**
    * 请求中需要包含认证信息
    */
+  const fnOnFail = () => {
+    Message({
+      showClose: true,
+      message: '登录失败',
+      type: 'error',
+      duration: 2000,
+      customClass: 'tms-login__error'
+    })
+  }
   const LoginPromise = (function () {
     let login = new Login(LoginSchema, fnGetCaptcha, fnGetJwt)
     let ins = new TmsLockPromise(function () {
-      return login.showAsDialog().then(token => {
+      return login.showAsDialog(fnOnFail).then(token => {
         sessionStorage.setItem('access_token', token)
         return `Bearer ${token}`
       })

@@ -35,6 +35,7 @@ export default {
   async created() {
     let dynaRoutes = await this.$store.dispatch('router/generateRoutes')
     this.$router.addRoutes(dynaRoutes)
+    this.$router.push({ name: dynaRoutes[0].name })
   }
 }
 </script>
