@@ -8,7 +8,7 @@ import auth from './apis/auth'
 import { Frame, Flex, CompOnline, Login } from 'tms-vue-ui'
 import ElementUI, { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import './styles/common.scss'
+import './styles/common.css'
 
 import CompRoute from './components/CompRoute.vue'
 import NamedRouterViews from './components/NamedRouterViews.vue'
