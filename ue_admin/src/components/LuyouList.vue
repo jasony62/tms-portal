@@ -11,7 +11,7 @@
         <el-table-column prop="title" label="显示名"></el-table-column>
         <el-table-column prop="name" label="系统名" width="300"></el-table-column>
         <el-table-column prop="version" label="版本号" width="100"></el-table-column>
-        <el-table-column prop="saveTime" label="保存时间" width="200"></el-table-column>
+        <el-table-column prop="saveTime" label="保存时间" width="200" :formatter="dateFormat"></el-table-column>
         <el-table-column fixed="right" label="操作" width="220">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="listVersion(scope.row)">全部版本</el-button>
@@ -40,9 +40,13 @@ export default {
     return { routes: [], multipleSelection: [] }
   },
   methods: {
+    dateFormat(row) {
+      const json_date = new Date(row.saveTime).toJSON();
+      return new Date(new Date(json_date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+    },
     async createRoute() {
       const route = await this.$apis.route.create()
-      this.routes.append(route)
+      this.routes.push(route)
     },
     async listAll() {
       this.routes = await this.$apis.route.list()

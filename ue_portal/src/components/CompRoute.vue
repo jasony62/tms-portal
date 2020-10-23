@@ -1,18 +1,6 @@
 <template>
   <div class="online-lib">
-    <div class="debug">
-      <div>lib: {{ lib }}</div>
-      <div>libProps: {{ libProps }}</div>
-      <div>views: {{ views }}</div>
-      <div>onlineProps: {{ onlineProps }}</div>
-      <hr />
-      <div>$route.path: {{ $route.path }}</div>
-      <div>$route.name: {{ $route.name }}</div>
-      <div>$route.meta: {{ $route.meta }}</div>
-    </div>
-    <hr />
     <comp-online ref="onlineComp" :url="lib.url" :includeCss="lib.includeCss" :props="onlineProps" :events="onlineEvents"></comp-online>
-    <hr />
     <div v-if="views.length">
       <named-router-views :views="views"></named-router-views>
     </div>

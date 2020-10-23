@@ -1,7 +1,7 @@
 # 标准基础镜像（构建阶段）
 FROM node:alpine
 
-RUN npm install cnpm -g
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 WORKDIR /home/node/app
 
@@ -10,8 +10,7 @@ COPY . .
 # 生成.env文件
 ARG vue_app_login_key_username=username
 ARG vue_app_login_key_password=password
-ARG vue_app_login_key_pin=pin
-ARG vue_app_title=portalwebMongo
+ARG vue_app_title=门户用户端
 ARG vue_app_base_url
 ARG vue_app_auth_base
 ARG vue_app_auth_server
@@ -22,7 +21,6 @@ ARG vue_app_auth_disabled
 
 RUN echo VUE_APP_LOGIN_KEY_USERNAME=$vue_app_login_key_username >> .env && \
 	echo VUE_APP_LOGIN_KEY_PASSWORD=$vue_app_login_key_password  >> .env && \
-	echo VUE_APP_LOGIN_KEY_PIN=$vue_app_login_key_pin  >> .env && \
 	echo VUE_APP_TITLE=$vue_app_title > .env && \
 	echo VUE_APP_BASE_URL=$vue_app_base_url >> .env && \
 	echo VUE_APP_AUTH_BASE=$vue_app_auth_base >> .env && \
@@ -32,7 +30,7 @@ RUN echo VUE_APP_LOGIN_KEY_USERNAME=$vue_app_login_key_username >> .env && \
 	echo VUE_APP_AUTH_DISABLED=$vue_app_auth_disabled >> .env
 
 # 安装依赖包，构建代码
-RUN cnpm i && yarn build
+RUN cnpm install --global node-gyp && cnpm i &&  yarn build
 
 # 标准基础镜像（部署阶段）
 FROM nginx:alpine

@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Login from '../components/Login.vue'
 import Luyou from '../views/Luyou.vue'
 import LuyouList from '../components/LuyouList.vue'
 import LuyouEditor from '../components/LuyouEditor.vue'
 import Zujan from '../views/Zujian.vue'
-
-Vue.use(VueRouter)
+import { TmsRouterHistoryPlugin } from 'tms-vue'
 
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
   {
     path: '/',
     name: '首页',
@@ -39,10 +44,25 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+Vue.use(VueRouter).use(TmsRouterHistoryPlugin)
+
+let router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.VUE_APP_BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login') {
+    let token = sessionStorage.getItem('access_token')
+    if (!token) {
+      Vue.TmsRouterHistory.push(to.path)
+      return next({ name: 'login' })
+    }
+  }
+  next()
+})
+
+router = Vue.TmsRouterHistory.watch(router)
 
 export default router
