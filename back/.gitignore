@@ -1,0 +1,8 @@
+.vscode
+node_modules/
+public/
+.env
+.env.*
+*.xlsx
+config/app.local.js
+config/app.local2.js

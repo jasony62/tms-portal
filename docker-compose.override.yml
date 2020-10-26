@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+  psmongodb:
+    volumes:
+      - /home/devops/mongodata/portal_sale:/data/db
+    ports:
+      - '27017:27017'
+    logging:
+      driver: 'none'
+    networks:
+      - portal
+  back:
+    ports:
+      - '3930:3000'
+    environment:
+      - TMS_REDIS_PREFIX=dev-op
+      - TMS_REDIS_HOST=192.168.20.247
+      - TMS_REDIS_PORT=6300
+      - TMS_PORTAL_MONGODB_HOST=psmongodb
+      - TMS_PORTAL_MONGODB_PORT=27017
+
+    networks:
+      - portal
+
+  admin:
+    build: 
+      context: ./ue_admin
+      args:
+        vue_app_auth_server: http://192.168.20.71:3330
+        vue_app_api_server: http://back:3230
+    ports:
+      - '3940:80'
+    dns:
+      - 223.6.6.6
+      - 223.5.5.5
+    networks:
+      - portal
+
+  mongo:
+    build: 
+      context: ./ue_portal
+      args:
+        vue_app_auth_server: http://192.168.20.71:3330
+        vue_app_api_server: http://back:3230
+    ports:
+      - '3950:80'
+    dns:
+      - 223.6.6.6
+      - 223.5.5.5
+    networks:
+      - portal
+networks:
+  portal:
+    driver: bridge
+    external: true

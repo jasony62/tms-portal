@@ -63,3 +63,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.el-form-item__content {
+  .tms-flex.tms-flex_column {
+    align-items: flex-start !important;
+  }
+}
+</style>

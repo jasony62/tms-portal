@@ -6,7 +6,8 @@ const path = require('path')
 const devServer = {
   proxy: {}
 }
-//代理auth请求
+
+// 代理api请求
 devServer.proxy[`${process.env.VUE_APP_AUTH_BASE}`] = {
   target: process.env.VUE_APP_AUTH_SERVER
 }
@@ -53,14 +54,8 @@ module.exports = {
     // 生产环境
     if (config.mode === 'production') {
       // 设置cdn第三方包
-      config.externals = {
-
-      }
-      const prod = {
-        plugins: [
-
-        ]
-      }
+      config.externals = {}
+      const prod = { plugins: [] }
       return prod
     }
   }

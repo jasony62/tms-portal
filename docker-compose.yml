@@ -1,31 +1,50 @@
 version: '3.7'
 services:
-  mongodb:
+  psmongodb:
     build: ./mongodb
-    image: tms-portal/mongo:latest
-    container_name: tms-portal-mongo
-    ports:
-      - '27017:27017'
-    logging:
-      driver: none
+    image: 192.168.253.28/portal-sale/mongodb:latest
+    container_name: sale-db
 
   back:
     build: ./back
-    image: tms-portal/back:latest
-    container_name: tms-portal-back
-    ports:
-      - '3000:3000'
+    image: 192.168.253.28/portal-sale/back:latest
+    container_name: sale-back
+    environment:
+      - TMS_APP_PORT=3000
+      - TMS_APP_NAME=dev-op
+      - TMS_APP_LOG4JS_LEVEL=debug
+      - TMS_MONGODB_USER_NAME=root
+      - TMS_MONGODB_USER_PWD=pmjswjkai
+    command:
+      ['sh', './wait-for.sh', 'psmongodb:27017', '-t', '300', '--', 'node', 'server']
 
-  ue_portal:
-    build: ./ue_portal
+	ue_admin:
+		build: 
+			context: ./ue_admin
+			args:
+        vue_app_base_url: /admin
+        vue_app_auth_base: /sale/auth
+        vue_app_back_api_base: /api			
+		image: tms-portal/ue_admin:latest
+		container_name: tms-portal-ue_admin
+    environment:
+      - NGINX_WEB_BASE_URL=/sale/admin
+
+
+  mongo:
+    build: 
+      context: ./ue_portal
+      args:
+        vue_app_login_key_username: username
+        vue_app_login_key_password: password
+        vue_app_login_key_pin: pin
+        vue_app_base_url: /portal
+        vue_app_back_auth_base: /auth
+				vue_app_back_api_base: /api
+				vue_app_auth_disabled: No		
     image: tms-portal/ue_portal:latest
-    container_name: tms-portal-ue_portal
-    ports:
-      - '8080:80'
+		container_name: tms-portal-ue_portal
+    environment:
+      - NGINX_WEB_BASE_URL=/sale/portal
 
-  ue_admin:
-    build: ./ue_admin
-    image: tms-portal/ue_admin:latest
-    container_name: tms-portal-ue_admin
-    ports:
-      - '8081:80'
+  

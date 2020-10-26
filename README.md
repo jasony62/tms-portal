@@ -20,7 +20,7 @@
 
 在 ue_libs 目录下：
 
-> npx http-server --cors ./dist -a 0.0.0.0 -p 8082
+> npx http-server ./dist --cors -a 0.0.0.0 -p 8082
 
 进入管理端：
 
