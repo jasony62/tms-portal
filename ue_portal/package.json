@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "core-js": "^3.4.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "tms-vue": "^0.0.9",
     "tms-vue-ui": "^0.0.40",
     "vue": "^2.6.10",
