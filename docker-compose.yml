@@ -37,6 +37,7 @@ services:
         vue_app_auth_base: /auth
         vue_app_api_base: /api	
         vue_app_auth_disabled: No
+        vue_app_storetoken_way: session
 		image: tms-portal/ue_admin:latest
 		container_name: tms-portal-ue_admin
     environment:
@@ -53,7 +54,8 @@ services:
         vue_app_base_url: /portal
         vue_app_auth_base: /auth
         vue_app_api_base: /api
-        vue_app_auth_disabled: No		
+        vue_app_auth_disabled: No
+        vue_app_storetoken_way: session
     image: tms-portal/ue_portal:latest
 		container_name: tms-portal-ue_portal
     environment:

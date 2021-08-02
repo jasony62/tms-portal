@@ -1,39 +1,22 @@
 <template>
   <div v-if="!item.hidden" class="menu-wrapper">
-    <template
-      v-if="
+    <template v-if="
         hasOneShowingChild(item.children, item) &&
           (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
           !item.alwaysShow
-      "
-    >
+      ">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item
-          :index="onlyOneChild.path"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
-        >
+        <el-menu-item :index="onlyOneChild.path" :class="{ 'submenu-title-noDropdown': !isNest }">
           <span>{{ onlyOneChild.meta.title }}</span>
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-submenu
-      v-else
-      ref="subMenu"
-      :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <span>{{ item.meta.title }}</span>
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(item.path)"
-        class="nest-menu"
-      />
+      <sidebar-item v-for="child in item.children" :key="child.path" :is-nest="true" :item="child" :base-path="resolvePath(item.path)" class="nest-menu" />
     </el-submenu>
   </div>
 </template>
@@ -41,6 +24,7 @@
 <script>
 import path from 'path'
 import AppLink from './Link'
+import { isExternal } from '@/utils/validate'
 
 export default {
   name: 'SidebarItem',
@@ -92,7 +76,8 @@ export default {
       return false
     },
     resolvePath(routePath) {
-      return path.resolve(this.basePath, routePath)
+      const flag = isExternal(this.to) ? true : false
+      return flag ? path.resolve(this.basePath, routePath) : routePath
     }
   }
 }

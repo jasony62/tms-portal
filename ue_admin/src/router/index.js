@@ -7,6 +7,7 @@ import LuyouList from '../components/LuyouList.vue'
 import LuyouEditor from '../components/LuyouEditor.vue'
 import Zujan from '../views/Zujian.vue'
 import { TmsRouterHistoryPlugin } from 'tms-vue'
+import { getToken } from '../global.js'
 
 const routes = [
   {
@@ -54,7 +55,7 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.name !== 'login') {
-    let token = sessionStorage.getItem('access_token')
+    let token = getToken()
     if (!token) {
       Vue.TmsRouterHistory.push(to.path)
       return next({ name: 'login' })
