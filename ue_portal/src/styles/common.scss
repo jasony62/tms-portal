@@ -1,3 +1,13 @@
-.tms-login__error {
+.el-pagination {
+	margin-left: auto !important;
+}
+
+.el-dialog__body {
+	height: 400px;
+	overflow-y: auto;
+}
+
+.tms-login__error,
+.mzindex {
 	z-index: 10000 !important
 }

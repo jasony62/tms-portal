@@ -18,7 +18,7 @@ services:
       - TMS_REDIS_PORT=6300
       - TMS_PORTAL_MONGODB_HOST=psmongodb
       - TMS_PORTAL_MONGODB_PORT=27017
-
+      - TMS_CTRL_MONGODB_DATABASE=tms-portal
     networks:
       - portal
 

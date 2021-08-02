@@ -21,6 +21,8 @@ services:
       # mongodb配置
       # - TMS_MONGODB_USER_NAME=root
       # - TMS_MONGODB_USER_PWD=pmjswjkai
+      # 库名配置
+      # - TMS_CTRL_MONGODB_DATABASE=tms-portal
     command:
       ['sh', './wait-for.sh', 'psmongodb:27017', '-t', '300', '--', 'node', 'server']
 
