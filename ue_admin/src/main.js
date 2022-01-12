@@ -9,9 +9,15 @@ import {
   TmsLockPromise
 } from 'tms-vue'
 import ApiPlugin from './apis'
+import { setToken, getToken } from './global.js'
+
+Vue.prototype.$setToken = setToken
+Vue.prototype.$getToken = getToken
 
 Vue.config.productionTip = false
-Vue.use(TmsAxiosPlugin).use(TmsErrorPlugin).use(TmsEventPlugin)
+Vue.use(TmsAxiosPlugin)
+  .use(TmsErrorPlugin)
+  .use(TmsEventPlugin)
 /**
  * 初始化全局组件TmsObjectInput
  */
@@ -26,7 +32,11 @@ import {
 import { ObjectInput, Flex, ElJsonDoc, Login } from 'tms-vue-ui'
 import auth from './apis/auth'
 
-Vue.use(Button).use(Input).use(Collapse).use(CollapseItem).use(Card)
+Vue.use(Button)
+  .use(Input)
+  .use(Collapse)
+  .use(CollapseItem)
+  .use(Card)
 Vue.use(Flex)
 Vue.component('tms-el-json-doc', ElJsonDoc)
 
@@ -84,7 +94,12 @@ Vue.component('tms-object-input', ObjectInput)
  * 初始化
  */
 function onResultFault(res) {
-  Message({ showClose: true, message: res.data.msg, type: 'error', duration: 3000 })
+  Message({
+    showClose: true,
+    message: res.data.msg,
+    type: 'error',
+    duration: 3000
+  })
   return Promise.reject(new TmsIgnorableError(res.data))
 }
 // 处理请求过程中发生的异常
@@ -95,18 +110,23 @@ let rules = []
 /**
  * 用户认证
  */
-if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERVER) {
+if (
+  process.env.VUE_APP_AUTH_DISABLED !== 'Yes' &&
+  process.env.VUE_APP_AUTH_SERVER
+) {
   const { fnGetCaptcha, fnGetJwt } = auth
   const LoginSchema = [
     {
       key: process.env.VUE_APP_LOGIN_KEY_USERNAME || 'username',
       type: 'text',
       placeholder: '用户名'
-    }, {
+    },
+    {
       key: process.env.VUE_APP_LOGIN_KEY_PASSWORD || 'password',
       type: 'password',
       placeholder: '密码'
-    }, {
+    },
+    {
       key: process.env.VUE_APP_LOGIN_KEY_PIN || 'pin',
       type: 'code',
       placeholder: '验证码'
@@ -114,25 +134,26 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
   ]
   Vue.use(Login, { schema: LoginSchema, fnGetCaptcha, fnGetToken: fnGetJwt })
   /**
- * 请求中需要包含认证信息
- */
-  const LoginPromise = (function () {
+   * 请求中需要包含认证信息
+   */
+  const LoginPromise = (function() {
     let login = new Login(LoginSchema, fnGetCaptcha, fnGetJwt)
-    let ins = new TmsLockPromise(function () {
+    let ins = new TmsLockPromise(function() {
       return login.showAsDialog().then(token => {
-        sessionStorage.setItem('access_token', token)
+        setToken(token)
         return `Bearer ${token}`
       })
     })
     return ins
   })()
 
-  const getAccessToken = function () { // 如果正在登录，等待结果
+  const getAccessToken = function() {
+    // 如果正在登录，等待结果
     if (LoginPromise.isRunning()) {
       return LoginPromise.wait()
     }
     // 如果没有token，发起登录
-    let token = sessionStorage.getItem('access_token')
+    let token = getToken()
     if (!token) {
       return LoginPromise.wait()
     }
@@ -140,7 +161,7 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
     return `Bearer ${token}`
   }
 
-  const onRetryAttempt = function (res) {
+  const onRetryAttempt = function(res) {
     if (res.data.code === 20001) {
       return LoginPromise.wait().then(() => {
         return true
@@ -151,22 +172,25 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
 
   if (process.env.VUE_APP_AUTH_SERVER) {
     let accessTokenRule = Vue.TmsAxios.newInterceptorRule({
-      requestHeaders: new Map(
-        [['Authorization', getAccessToken]]
-      ),
+      requestHeaders: new Map([['Authorization', getAccessToken]]),
       onRetryAttempt
     })
     rules.push(accessTokenRule)
   }
 }
 
-let tmsAxiosRule = Vue.TmsAxios.newInterceptorRule({ onResultFault, onResponseRejected })
+let tmsAxiosRule = Vue.TmsAxios.newInterceptorRule({
+  onResultFault,
+  onResponseRejected
+})
 rules.push(tmsAxiosRule)
-
 
 const tmsAxios = {}
 tmsAxios.route = Vue.TmsAxios({ name: 'route-api', rules })
-if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERVER) {
+if (
+  process.env.VUE_APP_AUTH_DISABLED !== 'Yes' &&
+  process.env.VUE_APP_AUTH_SERVER
+) {
   tmsAxios.auth = Vue.TmsAxios({ name: 'auth-api' })
 }
 Vue.use(ApiPlugin, { tmsAxios })

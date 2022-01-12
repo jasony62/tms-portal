@@ -8,7 +8,7 @@ const {
   ResultObjectNotFound
 } = require('tms-koa')
 // 数据库
-const DB_NAME = 'tms-portal'
+const DB_NAME = process.env.TMS_CTRL_MONGODB_DATABASE || 'tms-portal'
 // 路由定义集合
 const CL_NAME = 'route'
 /**

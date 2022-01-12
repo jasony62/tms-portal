@@ -9,11 +9,11 @@
 export default {
   methods: {
     fnSuccessToken(newToken) {
-      window.sessionStorage.setItem('access_token', newToken)
+      this.$setToken(newToken)
       if (this.$tmsRouterHistory.canBack()) {
         this.$router.back()
       } else {
-        this.$router.push({name: 'home'})
+        this.$router.push({ name: 'home' })
       }
     }
   }

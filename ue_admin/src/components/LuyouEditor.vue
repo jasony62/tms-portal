@@ -58,6 +58,14 @@ export default {
       await this.$apis.route.save(this.route.name, { title: this.route.title })
     },
     async onSubmitContent(newContent) {
+      let { routes } = newContent
+      if (routes && routes.length) {
+        routes.forEach(content => {
+          if (content.layoutComponent && content.children.length) {
+            content.children.forEach(child => (child.path = ''))
+          }
+        })
+      }
       await this.$apis.route.save(this.route.name, { content: newContent })
     }
   }

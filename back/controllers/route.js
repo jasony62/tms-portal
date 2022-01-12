@@ -1,7 +1,7 @@
 const { Ctrl, ResultData, ResultObjectNotFound } = require('tms-koa')
 
 // 数据库
-const DB_NAME = 'tms-portal'
+const DB_NAME = process.env.TMS_CTRL_MONGODB_DATABASE || 'tms-portal'
 // 路由定义集合
 const CL_NAME = 'route'
 
@@ -30,7 +30,7 @@ class Route extends Ctrl {
     }
 
     const route = await this.clRoute.findOne(filter, {
-      projection: { _id: 0, name: 1, version: 1, asDefault: 1, content: 1 },
+      projection: { _id: 0, name: 1, version: 1, asDefault: 1, content: 1 }
     })
 
     if (!route)

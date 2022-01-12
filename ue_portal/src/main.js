@@ -2,7 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { TmsAxiosPlugin, TmsErrorPlugin, TmsIgnorableError, TmsEventPlugin, TmsLockPromise } from 'tms-vue'
+import {
+  TmsAxiosPlugin,
+  TmsErrorPlugin,
+  TmsIgnorableError,
+  TmsEventPlugin,
+  TmsLockPromise
+} from 'tms-vue'
 import ApiPlugin from './apis'
 import auth from './apis/auth'
 import { Frame, Flex, CompOnline, Login } from 'tms-vue-ui'
@@ -14,17 +20,23 @@ import CompRoute from './components/CompRoute.vue'
 import NamedRouterViews from './components/NamedRouterViews.vue'
 
 import TransferPlugin from './utils/transfer'
+import { setToken, getToken, removeToken } from './global.js'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(Frame).use(Flex)
-Vue.use(TmsAxiosPlugin).use(TmsErrorPlugin).use(TmsEventPlugin)
+Vue.use(TmsAxiosPlugin)
+  .use(TmsErrorPlugin)
+  .use(TmsEventPlugin)
 Vue.use(TransferPlugin)
 
 Vue.component('comp-route', CompRoute)
 Vue.component('comp-online', CompOnline)
 Vue.component('named-router-views', NamedRouterViews)
+
+Vue.prototype.$getToken = getToken
+Vue.prototype.$removeToken = removeToken
 
 /**
  * 初始化
@@ -46,7 +58,10 @@ let rules = []
 /**
  * 用户认证
  */
-if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERVER) {
+if (
+  process.env.VUE_APP_AUTH_DISABLED !== 'Yes' &&
+  process.env.VUE_APP_AUTH_SERVER
+) {
   const { fnGetCaptcha, fnGetJwt } = auth
   const LoginSchema = [
     {
@@ -78,24 +93,24 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
       customClass: 'tms-login__error'
     })
   }
-  const LoginPromise = (function () {
+  const LoginPromise = (function() {
     let login = new Login(LoginSchema, fnGetCaptcha, fnGetJwt)
-    let ins = new TmsLockPromise(function () {
+    let ins = new TmsLockPromise(function() {
       return login.showAsDialog(fnOnFail).then(token => {
-        sessionStorage.setItem('access_token', token)
+        setToken(token)
         return `Bearer ${token}`
       })
     })
     return ins
   })()
 
-  const getAccessToken = function () {
+  const getAccessToken = function() {
     // 如果正在登录，等待结果
     if (LoginPromise.isRunning()) {
       return LoginPromise.wait()
     }
     // 如果没有token，发起登录
-    let token = sessionStorage.getItem('access_token')
+    let token = getToken()
     if (!token) {
       return LoginPromise.wait()
     }
@@ -103,7 +118,7 @@ if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERV
     return `Bearer ${token}`
   }
 
-  const onRetryAttempt = function (res) {
+  const onRetryAttempt = function(res) {
     if (res.data.code === 20001) {
       return LoginPromise.wait().then(() => {
         return true
@@ -129,7 +144,10 @@ rules.push(tmsAxiosRule)
 
 const tmsAxios = {}
 tmsAxios.default = Vue.TmsAxios({ name: 'default-api', rules })
-if (process.env.VUE_APP_AUTH_DISABLED !== 'Yes' && process.env.VUE_APP_AUTH_SERVER) {
+if (
+  process.env.VUE_APP_AUTH_DISABLED !== 'Yes' &&
+  process.env.VUE_APP_AUTH_SERVER
+) {
   tmsAxios.auth = Vue.TmsAxios({ name: 'auth-api' })
 }
 Vue.use(ApiPlugin, { tmsAxios })

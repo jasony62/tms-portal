@@ -1,12 +1,14 @@
 
 <template>
   <!-- eslint-disable vue/require-component-is -->
-  <component v-bind="linkProps(to)">
+  <component v-bind="linkProps(to)" :is="type">
     <slot />
   </component>
 </template>
 
 <script>
+import { isExternal } from '@/utils/validate'
+
 export default {
   props: {
     to: {
@@ -14,11 +16,28 @@ export default {
       required: true
     }
   },
+  computed: {
+    isExternal() {
+      return isExternal(this.to)
+    },
+    type() {
+      if (this.isExternal) {
+        return 'a'
+      }
+      return 'router-link'
+    }
+  },
   methods: {
-    linkProps(url) {
+    linkProps(to) {
+      if (this.isExternal) {
+        return {
+          href: to,
+          target: '_blank',
+          rel: 'noopener'
+        }
+      }
       return {
-        is: 'router-link',
-        to: url
+        to: to
       }
     }
   }

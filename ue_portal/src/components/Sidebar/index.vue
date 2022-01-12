@@ -1,31 +1,10 @@
 <template>
   <div>
     <div class="sidebar-wrapper">
-      <el-menu
-        class="sidebar-el-menu"
-        :default-active="activeMenu"
-        :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :unique-opened="false"
-        :active-text-color="variables.menuActiveText"
-        :collapse-transition="false"
-        mode="vertical"
-      >
-        <sidebar-item
-          v-for="route in routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-        />
+      <el-menu class="sidebar-el-menu" :default-openeds="activeOpeneds" :default-active="activeMenu" :collapse="isCollapse" :background-color="variables.menuBg" :text-color="variables.menuText" :unique-opened="false" :active-text-color="variables.menuActiveText" :collapse-transition="false" mode="vertical">
+        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
         <li style="flex:1;"></li>
-        <el-menu-item
-          class="logout"
-          index="logout"
-          :text-color="variables.menuText"
-          @click="logout()"
-          >退出登录</el-menu-item
-        >
+        <el-menu-item class="logout" index="logout" :text-color="variables.menuText" @click="logout()">退出登录</el-menu-item>
       </el-menu>
     </div>
   </div>
@@ -53,6 +32,13 @@ export default {
     },
     isCollapse() {
       return false
+    },
+    activeOpeneds() {
+      if (this.routes.length === 0) return []
+      let menus = this.routes.map(route => {
+        if (route.children && route.children.length) return route.path
+      })
+      return menus
     }
   },
   async created() {
@@ -64,7 +50,7 @@ export default {
   },
   methods: {
     logout() {
-      sessionStorage.removeItem('access_token')
+      this.$removeToken()
       window.location.reload()
     }
   }
